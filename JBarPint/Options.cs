@@ -24,13 +24,21 @@ namespace JBarPint
             HelpText = "Paper Name")]
         public string PaperName { get; set; }
 
-        [Option('t', "Top", Required = false, DefaultValue = 1,
+        [Option('t', "Top", Required = false, DefaultValue = 2,
             HelpText = "Top Margin")]
         public int TopMargin { get; set; }
 
         [Option('l', "Left", Required = false, DefaultValue = 0,
             HelpText = "Left Margin")]
         public int LeftMargin { get; set; }
+
+        [Option('f', "Font", Required = false, DefaultValue = "Lucida Console",
+            HelpText = "Font")]
+        public string FontName { get; set; }
+
+        [Option('g', "FontSize", Required = false, DefaultValue = 4,
+            HelpText = "Left Margin")]
+        public int FontSize { get; set; }
 
     }
 }

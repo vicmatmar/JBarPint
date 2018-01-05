@@ -10,8 +10,9 @@ using System.Drawing;
 using System.Drawing.Printing;
 
 
-// -p "Brady IP300 Printer 3.29"
-//https://github.com/barnhill/barcodelib
+// -s P123 -p "Brady IP300 Printer 3.29" -r "THT-103-423"
+// -s P123 -p "Brady IP300 Printer Remote" -r "THT-45-423"
+
 
 namespace JBarPint
 {
@@ -21,6 +22,8 @@ namespace JBarPint
         static string _board_serial;
         static int _top_margin;
         static int _left_margin;
+        static string _font_name;
+        static int _font_size;
 
         static int Main(string[] args)
         {
@@ -39,6 +42,8 @@ namespace JBarPint
                 _board_serial = options.BoardSerial;
                 _top_margin = options.TopMargin;
                 _left_margin = options.LeftMargin;
+                _font_name = options.FontName;
+                _font_size = options.FontSize;
 
                 // Set printer
                 string name = "";
@@ -94,7 +99,7 @@ namespace JBarPint
         private static void Pdoc_PrintPage(object sender, PrintPageEventArgs e)
         {
             // Draw the serial as text on top of label
-            Font font = new Font("Lucida Console", 4, FontStyle.Regular);
+            Font font = new Font(_font_name, _font_size, FontStyle.Regular);
             SizeF fsize = e.Graphics.MeasureString(_board_serial, font);
             SolidBrush sb = new SolidBrush(Color.Black);
             int x = (int) ( (e.PageBounds.Width - fsize.Width) / 2 ) + _left_margin;
@@ -104,7 +109,7 @@ namespace JBarPint
             // Draw barcode below it
             Code128BarcodeDraw barcode = BarcodeDrawFactory.Code128WithChecksum;
 
-            int h = (int)(e.PageBounds.Height - fsize.Height - y - 2);
+            int h = (int)(e.PageBounds.Height - fsize.Height - y - 5);
             Image bi = barcode.Draw(_board_serial, h);
             if (bi.Width > e.PageBounds.Width)
                 throw new Exception("Barcode too large to fit on selected paper");
