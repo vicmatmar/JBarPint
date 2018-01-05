@@ -19,6 +19,8 @@ namespace JBarPint
     class Program
     {
         static string _board_serial;
+        static int _top_margin;
+        static int _left_margin;
 
         static int Main(string[] args)
         {
@@ -35,6 +37,8 @@ namespace JBarPint
             try
             {
                 _board_serial = options.BoardSerial;
+                _top_margin = options.TopMargin;
+                _left_margin = options.LeftMargin;
 
                 // Set printer
                 string name = "";
@@ -93,8 +97,8 @@ namespace JBarPint
             Font font = new Font("Lucida Console", 4, FontStyle.Regular);
             SizeF fsize = e.Graphics.MeasureString(_board_serial, font);
             SolidBrush sb = new SolidBrush(Color.Black);
-            int x = (int) ( (e.PageBounds.Width - fsize.Width) / 2 );
-            int y = 2;
+            int x = (int) ( (e.PageBounds.Width - fsize.Width) / 2 ) + _left_margin;
+            int y = _top_margin;
             e.Graphics.DrawString(_board_serial, font, sb, x, y);
 
             // Draw barcode below it
@@ -105,9 +109,9 @@ namespace JBarPint
             if (bi.Width > e.PageBounds.Width)
                 throw new Exception("Barcode too large to fit on selected paper");
 
-            x = (e.PageBounds.Width - bi.Width) / 2;
+            x = (e.PageBounds.Width - bi.Width) / 2 + _left_margin;
             y += (int)(fsize.Height);
-            e.Graphics.DrawImage(bi, x+1, y);
+            e.Graphics.DrawImage(bi, x, y);
 
             e.Graphics.Dispose();
         }

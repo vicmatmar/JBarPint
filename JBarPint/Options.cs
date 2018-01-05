@@ -24,5 +24,13 @@ namespace JBarPint
             HelpText = "Paper Name")]
         public string PaperName { get; set; }
 
+        [Option('t', "Top", Required = false, DefaultValue = 1,
+            HelpText = "Top Margin")]
+        public int TopMargin { get; set; }
+
+        [Option('l', "Left", Required = false, DefaultValue = 0,
+            HelpText = "Left Margin")]
+        public int LeftMargin { get; set; }
+
     }
 }
